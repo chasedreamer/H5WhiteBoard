@@ -20,7 +20,7 @@ $debug   = false;
 /*********************************************************************/
 $db_host  = ':/Applications/MAMP/tmp/mysql/mysql.sock';
 $db_user  = 'root';
-$db_pass  = 'root';
+$db_pass  = '123456';
 $db_db	  = 'htmlwhiteboard';
 
 $db_link = mysql_connect($db_host, $db_user, $db_pass);

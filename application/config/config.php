@@ -14,9 +14,9 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://10.1.60.6/';
+$config['base_url']= 'http://10.16.135.240/HTML5-whiteboard/';
 
-$config['ws_url'] = 'http://10.1.60.6:8080/';
+$config['ws_url'] = 'http://10.16.135.240:8080/';
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ $config['ws_url'] = 'http://10.1.60.6:8080/';
 | Typically this will be your index.php file, unless you've renamed it to
 | something else. If you are using mod_rewrite to remove the page set this
 | variable so that it is blank.
-|
+|lxk
 */
 $config['index_page'] = '';
 
@@ -182,7 +182,7 @@ $config['directory_trigger']	= 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------

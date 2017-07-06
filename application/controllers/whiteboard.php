@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Whiteboard extends CI_Controller {
+class whiteboard extends CI_Controller {
 
 	public function index() {
 		$this->load->library('user_agent');
@@ -9,7 +9,7 @@ class Whiteboard extends CI_Controller {
 	
 	public function create() {
 		$key = str_replace('.', '0', uniqid("", true));
-
+        
 		$this->load->database();
 		$this->db->where('wbId', $key);
 		
@@ -18,7 +18,7 @@ class Whiteboard extends CI_Controller {
 			$this->db->where('wbId', $key);
 		}
 		
-		redirect("/whiteboard/join/${key}");
+		redirect("index.php/whiteboard/join/${key}");
 	}
 	
 	public function join($key=null) {

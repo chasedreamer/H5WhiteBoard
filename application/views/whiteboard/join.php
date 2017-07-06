@@ -8,7 +8,7 @@
 		
 		<script type="text/javascript" src="<?php echo site_url('static/js/jquery.min.js') ?>"></script>
 		<script type="text/javascript" src="<?php echo site_url('static/js/jpicker-1.1.6.min.js') ?>"></script>
-		<script type="text/javascript" src="<?php echo $ws_url . 'socket.io/socket.io.js'; ?>"></script>
+		<script type="text/javascript" src="<?php echo site_url('node_modules/socket.io-client/dist/socket.io.js'); ?>"></script>
 		<script type="text/javascript" src="<?php echo site_url('static/js/nrcwhiteboard.js'); ?>"></script>
 		
 		<style>
@@ -209,7 +209,7 @@
 						alphaSupport: true
 					},
 					images: {
-						clientPath: '/static/img/'
+						clientPath: '/HTML5-whiteboard/static/img/'
 					},
 					color: {
 						active: new $.jPicker.Color({hex: '#000000'})
@@ -233,7 +233,7 @@
 						alphaSupport: true
 					},
 					images: {
-						clientPath: '/static/img/'
+						clientPath: '/HTML5-whiteboard/static/img/'
 					},
 					color: {
 						active: new $.jPicker.Color({hex: '#FFFFFF'})
@@ -302,7 +302,7 @@
 						alphaSupport: true
 					},
 					images: {
-						clientPath: '/static/img/'
+						clientPath: '/HTML5-whiteboard/static/img/'
 					},
 					color: {
 						active: new $.jPicker.Color({hex: '#000000'})
@@ -385,11 +385,11 @@
 					
 					if( url !== '' ) {
 						var xhr = new XMLHttpRequest();
-						xhr.open('GET', '<?php echo site_url("whiteboard/proxy?url="); ?>' + encodeURIComponent(url), false);
+						xhr.open('GET', '<?php echo site_url("index.php/whiteboard/proxy?url="); ?>' + encodeURIComponent(url), false);
 
 						xhr.onload = function() {										
 							if( this.status == 200 ) {																								
-								NRCWhiteboard.addImage('<?php echo site_url("whiteboard/proxy?url="); ?>' + encodeURIComponent(url));
+								NRCWhiteboard.addImage('<?php echo site_url("index.php/whiteboard/proxy?url="); ?>' + encodeURIComponent(url));
 							}
 							else {								
 								NRCWhiteboard.addImage('<?php echo site_url("static/img/broken.jpeg"); ?>');
@@ -593,7 +593,7 @@
 
 							if( /^image/.test(file.type) ) {
 								var xhr = new XMLHttpRequest();
-								xhr.open('POST', '<?php echo site_url("whiteboard/proxy?url="); ?>', false);
+								xhr.open('POST', '<?php echo site_url("index.php/whiteboard/proxy?url="); ?>', false);
 
 								// x-form-data is a hack!
 								xhr.setRequestHeader('Content-Type', 'multipart/x-form-data');
@@ -615,7 +615,7 @@
 								xhr.send(file);
 							}
 						}
-					}
+					 }
 					else {
 						if( e.dataTransfer.types.indexOf("text/html") != -1 ) {
 							var html = e.dataTransfer.getData('text/html');
@@ -623,16 +623,16 @@
 
 							if( src != null && src.length > 1 ) {	
 								var xhr = new XMLHttpRequest();
-								xhr.open('GET', '<?php echo site_url("whiteboard/proxy?url="); ?>' + encodeURIComponent(src[1]), false);
+								xhr.open('GET', '<?php echo site_url("index.php/whiteboard/proxy?url="); ?>' + encodeURIComponent(src[1]), false);
 
 								xhr.onload = function() {			
 									if( this.status == 200 ) {										
 										NRCWhiteboard.setMousePosition(e.pageX, e.pageY);
-										NRCWhiteboard.addImage('<?php echo site_url("whiteboard/proxy?url="); ?>' + encodeURIComponent(src[1]));
+										NRCWhiteboard.addImage('<?php echo site_url("index.php/whiteboard/proxy?url="); ?>' + encodeURIComponent(src[1]));
 									}
 									else {
 										NRCWhiteboard.setMousePosition(e.pageX, e.pageY);
-										NRCWhiteboard.addImage('<?php echo site_url("static/img/broken.jpeg"); ?>');
+										NRCWhiteboard.addImage('<?php echo site_url("HTML5-whiteboard/static/img/broken.jpeg"); ?>');
 									}
 								}
 								

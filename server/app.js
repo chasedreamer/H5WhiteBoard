@@ -2,7 +2,14 @@
 // Database 
 
 var Sequelize = require('sequelize');
-var db = new Sequelize('htmlwhiteboard', 'root', '');
+var db = new Sequelize('htmlwhiteboard', 'root', '123456',
+{
+  host: 'localhost',
+  dialect: 'mysql',
+
+}
+
+);
 
 var db_board = db.define('board', {
 	id: 		{type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
@@ -32,22 +39,37 @@ unlock();
 
 var io = require('socket.io').listen(8080);
 
-io.enable('browser client minification');  // send minified client
-io.enable('browser client etag');          // apply etag caching logic based on version number
-io.enable('browser client gzip');          // gzip the file
+console.log("aaafff");
+//io.enable('browser client minification');  // send minified client
+//io.enable('browser client etag');          // apply etag caching logic based on version number
+//io.enable('browser client gzip');          // gzip the file
 io.set('log level', 1);                    // reduce logging
 io.set('transports', [                     // enable all transports (optional if you want flashsocket)
-    'websocket'
+   'polling'
+  , 'websocket'
   , 'flashsocket'
   , 'htmlfile'
   , 'xhr-polling'
   , 'jsonp-polling'
 ]);
 
+/*io.set('transports', [                     // enable all transports (optional if you want flashsocket)
+    'websocket'
+  , 'flashsocket'
+  , 'htmlfile'
+  , 'xhr-polling'
+  , 'jsonp-polling'
+]);
+*/
 io.sockets.on('connection', function(socket) {
   	
+        console.log("some one is connected socket.wb_id=%s socket.usr_id=%d", socket.wb_id,socket.usr_id);
 	socket.on('message', function(data){ 
 		queue.push({socket:socket, data:data});	
+                socket.broadcast.to(socket.wb_id).send(JSON.stringify({
+                        type: 'CONNECT',
+                        slot: socket.usr_id
+                }));
 	});
   	
 	socket.on('disconnect', function(){ 					
@@ -56,12 +78,13 @@ io.sockets.on('connection', function(socket) {
 			slot: socket.usr_id	
 		}));
 		
-		db_board.findAll({
+               	db_board.findAll({
 			where: {
 				wbId: socket.wb_id,
 				usrId: socket.usr_id
 			}
-		}).on('success', function(objects) {
+		}).then(
+                 function(objects) {
 			for( var i in objects ) {
 				var obj = JSON.parse(objects[i].obj);
 				
@@ -119,8 +142,10 @@ function process(socket, data) {
 	
 		/*****************************************************************/
 		case 'JOIN':
+                        console.log("in process JOIN branch");
 			var init = !socket.hasOwnProperty('usr_id');
 			var wb_id = msg['msg']; 
+                        console.log("in process JOIN branch "+wb_id);
 			socket.wb_id = wb_id;
 		
 			socket.join(socket.wb_id);
@@ -165,9 +190,12 @@ function process(socket, data) {
 			db_board.findAll({
 				where: {
 					wbId: socket.wb_id
-				},
-				order: '`index`'
-			}).on('success', function(objects) {					
+				}
+                          ,order:[[Sequelize.literal(" `index` DESC")]]
+                          //  ,'order': "index"
+			}).then(
+                            function(objects) 
+                           {					
 				for( var i in objects ) {
 					socket.send(JSON.stringify({
 						type: 'JCREATE',
@@ -175,9 +203,11 @@ function process(socket, data) {
 						slot: socket.usr_id
 					}));
 				}
-			});
+			   }
+                        );
 		
 			if( init == true ) {
+                        console.log("init = true  in process JOIN branch");
 				socket.broadcast.to(socket.wb_id).send(JSON.stringify({
 					type: 'JOIN', 
 					name: socket.usr_name, 
@@ -199,7 +229,7 @@ function process(socket, data) {
 					wbId: socket.wb_id,
 					objId: obj['id']
 				}
-			}).on('success', function(objects) {
+			}).then(function(objects) {
 				for( var i in objects ) {						
 					objects[i].destroy();						
 				}
@@ -219,7 +249,7 @@ function process(socket, data) {
 				where: {
 					wbId: socket.wb_id
 				}
-			}).on('success', function(objects) {
+			}).then( function(objects) {
 				for( var i in objects ) {
 					objects[i].destroy();
 				}
@@ -253,14 +283,14 @@ function process(socket, data) {
 					wbId: socket.wb_id,
 					objId: obj['id'],
 				}
-			}).on('success', function(objects) {					
+			}).then( function(objects) {					
 				if( objects.length > 0 ) {
 					for( var i in objects ) {	
 						objects[i].updateAttributes({
 							usrId: socket.usr_id,
 							obj: json,
 							index: obj['index']
-						}).on('success', function() {
+						}).then( function() {
 							unlock();
 						});							
 					}
@@ -274,7 +304,7 @@ function process(socket, data) {
 						index: obj['index']
 					});
 			
-					object.save().on('success', function() {
+					object.save().then( function() {
 						unlock();
 					});
 				}

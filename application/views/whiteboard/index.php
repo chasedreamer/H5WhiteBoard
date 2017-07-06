@@ -7,7 +7,8 @@
 		<script type="text/javascript">
 			$(document).ready( function() {
 				$('#newbtn').click( function() {
-					window.location = "<?php echo site_url('/whiteboard/create'); ?>";
+					window.location = "<?php echo site_url('/application/views/whiteboard/join.php'); ?>";
+					window.location = "<?php echo site_url('/index.php/whiteboard/create'); ?>";
 				});
 			});
 		</script>
