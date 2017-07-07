@@ -27,7 +27,8 @@ class whiteboard extends CI_Controller {
 		}
 		$this->load->view('whiteboard/join', array(
 			'key' => $key,
-			'ws_url' => $this->config->item('ws_url')
+			'ws_url' => $this->config->item('ws_url'),
+			'project_root' => $this->config->item('project_root')
 		));
 	}
 	

@@ -97,9 +97,12 @@
 			}
 		</style>
 		<script type="text/javascript">
+		     console.log("<?php echo $project_root; ?>");
+		     var PRO_ROOT = '<?php echo $project_root; ?>';// '/HTML5-whiteboard';
+
 			/* http://www.arstdesign.com/articles/autolink.html */
 			function autolink(s) {   
-			   	var hlink = /\s(ht|f)tps?:\/\/([^ \,\;\:\!\)\(\"\'\<\>\f\n\r\t\v])+/g;
+			   	var hlink = /\s(ht|f)tps?:\/\/([ \,\;\:\!\)\(\"\'\<\>\f\n\r\t\v])+/g;
 			   	return (s.replace (hlink, function ($0,$1,$2) { s = $0.substring(1,$0.length); 
 			   		// remove trailing dots, if any
 			        while (s.length>0 && s.charAt(s.length-1)=='.') 
@@ -115,7 +118,7 @@
 				var CHAT_ME = '<span style="color:'+CHAT_ME_STYLE+'">'+CHAT_ME_NAME+'</span>:';	
 				
 				document.onselectstart = function(e){return false;};
-				
+			1
 				$(window).resize( function() {								
 					$('#canvas').width( $(this).width() - $('#users').width() );
 					$('#canvas').height( $(this).height() - $('#header').height() - $('#chat').height() - 1 );
@@ -209,7 +212,7 @@
 						alphaSupport: true
 					},
 					images: {
-						clientPath: '/HTML5-whiteboard/static/img/'
+						clientPath: PRO_ROOT + '/static/img/'
 					},
 					color: {
 						active: new $.jPicker.Color({hex: '#000000'})
@@ -233,7 +236,7 @@
 						alphaSupport: true
 					},
 					images: {
-						clientPath: '/HTML5-whiteboard/static/img/'
+						clientPath: PRO_ROOT + '/static/img/'
 					},
 					color: {
 						active: new $.jPicker.Color({hex: '#FFFFFF'})
@@ -302,7 +305,7 @@
 						alphaSupport: true
 					},
 					images: {
-						clientPath: '/HTML5-whiteboard/static/img/'
+						clientPath: PRO_ROOT + '/static/img/'
 					},
 					color: {
 						active: new $.jPicker.Color({hex: '#000000'})

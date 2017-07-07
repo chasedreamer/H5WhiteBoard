@@ -14,10 +14,11 @@
 | path to your installation.
 |
 */
-$config['base_url']= 'http://10.16.135.240/HTML5-whiteboard/';
+$config['base_url']= 'http://10.16.133.23/HTML5-whiteboard/';
 
-$config['ws_url'] = 'http://10.16.135.240:8080/';
+$config['ws_url'] = 'http://10.16.133.23:8080/';
 
+$config['project_root'] = '/HTML5-whiteboard';
 /*
 |--------------------------------------------------------------------------
 | Index File
